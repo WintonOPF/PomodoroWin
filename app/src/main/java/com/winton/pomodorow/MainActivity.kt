@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var timerTen: CountDownTimer
 
     private var contador:Int = 0
-    private var m1:Long = 5000//1500000 //25 minutos
+    private var m1:Long = 1500000 //25 minutos
     private var m2:Long = 300000 //5 minutos
 
     private var player: MediaPlayer? = null
@@ -27,13 +27,24 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.txtContador.text = contador.toString()
+        setupUI()
 
         timerMain = object : CountDownTimer(m1+500,1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val minuto :Int = (millisUntilFinished/60000).toInt()
                 val segundo : Int = (millisUntilFinished%60000/1000).toInt()
-                val timer = "$minuto:$segundo"
+
+                val minutoFormatado:String = if (minuto < 10){
+                    "0$minuto"
+                } else
+                    minuto.toString()
+
+                val segundoFormatado:String = if (segundo < 10){
+                    "0$segundo"
+
+                } else
+                    segundo.toString()
+                val timer = "$minutoFormatado:$segundoFormatado"
                 binding.txtTimer.text = timer
 
             }
@@ -67,7 +78,18 @@ class MainActivity : AppCompatActivity() {
             override fun onTick(millisUntilFinished: Long) {
                 val minuto :Int = (millisUntilFinished/60000).toInt()
                 val segundo : Int = (millisUntilFinished%60000/1000).toInt()
-                val timer = "$minuto:$segundo"
+
+                val minutoFormatado:String = if (minuto < 10){
+                    "0$minuto"
+                } else
+                    minuto.toString()
+
+                val segundoFormatado:String = if (segundo < 10){
+                    "0$segundo"
+
+                } else
+                    segundo.toString()
+                val timer = "$minutoFormatado:$segundoFormatado"
                 binding.txtTimer.text = timer
             }
 
@@ -81,7 +103,18 @@ class MainActivity : AppCompatActivity() {
             override fun onTick(millisUntilFinished: Long) {
                 val minuto :Int = (millisUntilFinished/60000).toInt()
                 val segundo : Int = (millisUntilFinished%60000/1000).toInt()
-                val timer = "$minuto:$segundo"
+
+                val minutoFormatado:String = if (minuto < 10){
+                    "0$minuto"
+                } else
+                    minuto.toString()
+
+                val segundoFormatado:String = if (segundo < 10){
+                    "0$segundo"
+
+                } else
+                    segundo.toString()
+                val timer = "$minutoFormatado:$segundoFormatado"
                 binding.txtTimer.text = timer
             }
 
@@ -114,5 +147,11 @@ class MainActivity : AppCompatActivity() {
         }catch (e: Exception){
             e.printStackTrace()
         }
+    }
+
+    private fun setupUI(){
+        binding.txtContador.text = contador.toString()
+        val timer = (m1/60000).toString() + ":" + "00"
+        binding.txtTimer.text = timer
     }
 }
