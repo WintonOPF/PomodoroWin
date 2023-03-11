@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">pomodorow</string>
     <string name="txt_iniciar">Iniciar</string>
+    <string name="txt_intervalo">Modo Intervalo</string>
 </resources>

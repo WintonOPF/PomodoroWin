@@ -14,6 +14,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var timerTen: CountDownTimer
 
     private var contador:Int = 0
+    private var m1:Long = 1500000 //25 minutos
+    private var m2:Long = 300000 //5 minutos
 
     private lateinit var binding: ActivityMainBinding
 
@@ -23,11 +25,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.txtContador.text = contador.toString()
 
-        timerMain = object : CountDownTimer(/*1500000*/5000+500,1000) {
+        timerMain = object : CountDownTimer(m1+500,1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val minuto :Int = (millisUntilFinished/60000).toInt()
                 val segundo : Int = (millisUntilFinished%60000/1000).toInt()
-                val timer : String = "$minuto:$segundo"
+                val timer = "$minuto:$segundo"
                 binding.txtTimer.text = timer
 
             }
@@ -35,7 +37,7 @@ class MainActivity : AppCompatActivity() {
             override fun onFinish() {
                 contador+=1
                 binding.txtContador.text = contador.toString()
-                if(contador == 4){
+                if(contador % 4 == 0){
                     val builder = MaterialAlertDialogBuilder(this@MainActivity)
                     builder.setMessage("É recomendado um descanso de 10 minutos. Aceita ?")
                         .setPositiveButton("SIM"){dialog,_->
@@ -56,11 +58,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
         
-        timerBreak = object : CountDownTimer(10000,1000) {
+        timerBreak = object : CountDownTimer(m2+500,1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val minuto :Int = (millisUntilFinished/60000).toInt()
                 val segundo : Int = (millisUntilFinished%60000/1000).toInt()
-                val timer : String = "$minuto:$segundo"
+                val timer = "$minuto:$segundo"
                 binding.txtTimer.text = timer
             }
 
@@ -69,11 +71,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        timerTen = object : CountDownTimer(600000,1000) {
+        timerTen = object : CountDownTimer(600000+500,1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val minuto :Int = (millisUntilFinished/60000).toInt()
                 val segundo : Int = (millisUntilFinished%60000/1000).toInt()
-                val timer : String = "$minuto:$segundo"
+                val timer = "$minuto:$segundo"
                 binding.txtTimer.text = timer
             }
 
@@ -84,7 +86,19 @@ class MainActivity : AppCompatActivity() {
         
         binding.btnIniciar.setOnClickListener {
             timerMain.start()
+            timerBreak.cancel()
+
         }
+
+        binding.btnIntervalo.setOnClickListener {
+            timerBreak.start()
+            timerMain.cancel()
+
+
+        }
+
+
+
 
     }
 
