@@ -1,5 +1,7 @@
 package com.winton.pomodorow
 
+import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
 import androidx.appcompat.app.AppCompatActivity
@@ -14,8 +16,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var timerTen: CountDownTimer
 
     private var contador:Int = 0
-    private var m1:Long = 1500000 //25 minutos
+    private var m1:Long = 5000//1500000 //25 minutos
     private var m2:Long = 300000 //5 minutos
+
+    private var player: MediaPlayer? = null
 
     private lateinit var binding: ActivityMainBinding
 
@@ -35,6 +39,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
+                playNotificationSound()
                 contador+=1
                 binding.txtContador.text = contador.toString()
                 if(contador % 4 == 0){
@@ -67,6 +72,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
+                playNotificationSound()
                 timerMain.start()
             }
         }
@@ -80,26 +86,33 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
+                playNotificationSound()
                 timerMain.start()
             }
         }
         
         binding.btnIniciar.setOnClickListener {
+
             timerMain.start()
             timerBreak.cancel()
-
         }
 
         binding.btnIntervalo.setOnClickListener {
+            contador = 0
+            binding.txtContador.text = contador.toString()
             timerBreak.start()
             timerMain.cancel()
-
-
         }
-
-
-
-
     }
 
+    private fun playNotificationSound(){
+        try{
+            val sound = Uri.parse("android.resource://com.winton.pomodorow/"+R.raw.som_pomodoro)
+            player = MediaPlayer.create(this,sound)
+            player?.isLooping = false
+            player?.start()
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
+    }
 }
