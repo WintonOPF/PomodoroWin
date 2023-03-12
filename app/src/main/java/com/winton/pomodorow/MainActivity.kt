@@ -146,6 +146,7 @@ class MainActivity : AppCompatActivity() {
                 contador += 1
                 binding.txtContador.text = contador.toString()
                 if (contador % 4 == 0) {
+                    timerMain.cancel()
                     val builder = MaterialAlertDialogBuilder(this@MainActivity)
                     builder.setMessage("É recomendado um descanso de 10 minutos. Aceita?")
                         .setPositiveButton("SIM") { dialog, _ ->
